@@ -187,7 +187,7 @@ final numberRegex = RegExp(r"\d+");
 
 typedef FoundNumber = (int number, int x, int y, int lastIndex);
 typedef FoundSymbol = (String symbol, int x, int y);
-typedef SymbolResult = (int sum, int product, List<FoundNumber> numbersUsed);
+typedef SymbolResult = (int sum, int product);
 
 Set<String> validSymbols = {
   "*",
@@ -231,8 +231,8 @@ void main() {
       }
     }
 
-    print("Numbers in line $y: ${numbersInLine}");
-    print("Symbols in line $y: ${symbolsInLine}");
+    // print("Numbers in line $y: ${numbersInLine}");
+    // print("Symbols in line $y: ${symbolsInLine}");
   }
 
   SymbolResult getSumForSymbol(int x, int y) {
@@ -288,12 +288,11 @@ void main() {
       product = numbersUsed.first.$1 * numbersUsed.last.$1;
     }
 
-    return (sum, product, numbersUsed);
+    return (sum, product);
   }
 
   int totalSum = 0;
   int gearProduct = 0;
-  List<FoundNumber> numbersUsedTotal = [];
 
   // Check for symbols now
   for (FoundSymbol symbol in allSymbols) {
@@ -305,13 +304,12 @@ void main() {
       result = getSumForSymbol(symbol.$2, symbol.$3);
     }
     if (result.$1 > 0) totalSum += result.$1;
-    if (result.$3.isNotEmpty) numbersUsedTotal.addAll(result.$3);
 
-    print(
-      "${symbol.$1} (${symbol.$2}, ${symbol.$3}) | sum: ${result.$1}, product: ${result.$2}, neighbors: ${result.$3.length}",
-    );
+    // print(
+    //   "${symbol.$1} (x: ${symbol.$2}, y: ${symbol.$3}) | sum: ${result.$1}, product: ${result.$2}",
+    // );
   }
 
-  print(totalSum);
-  print(gearProduct);
+  print("Part 1: $totalSum");
+  print("Part 2: $gearProduct");
 }
